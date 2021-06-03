@@ -2,7 +2,7 @@ import React from "react";
 import { Checkbox, Badge, Avatar, Button, Tooltip } from "neetoui";
 import moment from "moment";
 
-export default function NoteTable({
+function NoteTable({
   selectedNoteIds,
   setSelectedNoteIds,
   notes = [],
@@ -106,3 +106,5 @@ export default function NoteTable({
     </div>
   );
 }
+
+export default React.memo(NoteTable);
