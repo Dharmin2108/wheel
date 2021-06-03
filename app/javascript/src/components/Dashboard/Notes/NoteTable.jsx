@@ -6,6 +6,7 @@ export default function NoteTable({
   selectedNoteIds,
   setSelectedNoteIds,
   notes = [],
+  onCLickDelete,
 }) {
   return (
     <div className="w-full px-4">
@@ -90,7 +91,11 @@ export default function NoteTable({
                     <Button style="icon" icon="ri-pencil-line" />
                   </Tooltip>
                   <Tooltip content="Delete" position="bottom">
-                    <Button style="icon" icon="ri-delete-bin-line" />
+                    <Button
+                      onClick={() => onCLickDelete(note.id)}
+                      style="icon"
+                      icon="ri-delete-bin-line"
+                    />
                   </Tooltip>
                 </div>
               </td>

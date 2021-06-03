@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import notesApi from "apis/notes";
 import { Button, PageLoader } from "neetoui";
 import EmptyState from "components/Common/EmptyState";
@@ -52,6 +52,7 @@ const Notes = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [deleteNoteId, setDeleteNoteId] = useState(null);
 
   useEffect(() => {
     fetchNotes();
@@ -75,6 +76,15 @@ const Notes = () => {
       setLoading(false);
     }
   };
+
+  const onCLickDelete = useCallback(noteId => {
+    setShowDeleteAlert(true);
+    setDeleteNoteId(noteId);
+  }, []);
+
+  useEffect(() => {
+    if (!showDeleteAlert && deleteNoteId) setDeleteNoteId(null);
+  }, [showDeleteAlert]);
 
   if (loading) {
     return <PageLoader />;
@@ -119,6 +129,7 @@ const Notes = () => {
             selectedNoteIds={selectedNoteIds}
             setSelectedNoteIds={setSelectedNoteIds}
             notes={notes}
+            onCLickDelete={onCLickDelete}
           />
         </>
       ) : (
@@ -140,6 +151,7 @@ const Notes = () => {
           selectedNoteIds={selectedNoteIds}
           onClose={() => setShowDeleteAlert(false)}
           refetch={fetchNotes}
+          deleteNoteId={deleteNoteId}
         />
       )}
     </>
