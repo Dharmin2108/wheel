@@ -9,6 +9,42 @@ import NoteTable from "./NoteTable";
 import NewNotePane from "./NewNotePane";
 import DeleteAlert from "./DeleteAlert";
 
+const sortOptions = [
+  {
+    value: "title",
+    label: "Name",
+  },
+  {
+    value: "created_at",
+    label: "Date created",
+  },
+  {
+    value: "dueDate",
+    label: "Due date",
+  },
+];
+
+const tags = [
+  {
+    tagTitle: "Internal",
+    color: "blue",
+  },
+  {
+    tagTitle: "Agile Workflow",
+    color: "green",
+  },
+  {
+    tagTitle: "Bug",
+    color: "red",
+  },
+];
+
+const contacts = ["Dharmin Patel", "Amit Patel", "Narendra Modi"];
+
+const getRandomElement = array => {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
 const Notes = () => {
   const [loading, setLoading] = useState(true);
   const [showNewNotePane, setShowNewNotePane] = useState(false);
@@ -25,7 +61,14 @@ const Notes = () => {
     try {
       setLoading(true);
       const response = await notesApi.fetch();
-      setNotes(response.data);
+      const notes = response.data.map((note, index) => {
+        note.tag = getRandomElement(tags);
+        note.contact = getRandomElement(contacts);
+        if (index === 1) note.dueDate = "2021-08-08T09:04:02.849Z";
+
+        return note;
+      });
+      setNotes(notes);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -60,6 +103,17 @@ const Notes = () => {
               onClick: () => setShowDeleteAlert(true),
               disabled: !selectedNoteIds.length,
             }}
+            sortProps={{
+              options: sortOptions,
+              onClick: () => {},
+            }}
+            paginationProps={{
+              count: notes.length,
+              pageNo: 1,
+              pageSize: 10,
+              navigate: () => {},
+            }}
+            toggleFilter={() => {}}
           />
           <NoteTable
             selectedNoteIds={selectedNoteIds}
