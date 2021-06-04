@@ -6,6 +6,7 @@ import { Header, SubHeader } from "neetoui/layouts";
 
 import ContactsTable from "./ContactsTable";
 import DeleteAlert from "./DeleteAlert";
+import NewContactPane from "./NewContactPane";
 
 const sortOptions = [
   {
@@ -48,6 +49,7 @@ const Contacts = () => {
   const [selectedContactIds, setSelectedContactIds] = useState([]);
   const [deleteContactId, setDeleteContactId] = useState(null);
   const [contacts, setContacts] = useState([]);
+  const [showNewContactPane, setShowNewContactPane] = useState(false);
 
   const onCLickDelete = useCallback(contactId => {
     setShowDeleteAlert(true);
@@ -60,6 +62,15 @@ const Contacts = () => {
       setContacts(contactsData);
     }, 1000);
   });
+
+  const fetchContacts = useCallback(newContact => {
+    setLoading(true);
+    newContact.id = contactsData.length + 1;
+    contactsData.push(newContact);
+    window.setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
 
   useEffect(() => {
     if (!showDeleteAlert && deleteContactId) setDeleteContactId(null);
@@ -74,7 +85,7 @@ const Contacts = () => {
         title="Contacts"
         actionBlock={
           <Button
-            onClick={() => null}
+            onClick={() => setShowNewContactPane(true)}
             label="Add New Contact"
             icon="ri-add-line"
           />
@@ -116,10 +127,15 @@ const Contacts = () => {
           image={EmptyNotesListImage}
           title="Looks like you don't have any contacts!"
           subtitle="Add your contacts to send customized emails to them."
-          primaryAction={() => null}
+          primaryAction={() => setShowNewContactPane(true)}
           primaryActionLabel="Add New Contact"
         />
       )}
+      <NewContactPane
+        showPane={showNewContactPane}
+        setShowPane={setShowNewContactPane}
+        fetchContacts={fetchContacts}
+      />
       {showDeleteAlert && (
         <DeleteAlert
           selectedContactIds={selectedContactIds}
