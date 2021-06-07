@@ -1,6 +1,6 @@
 import React from "react";
 import { Checkbox, Badge, Avatar, Button, Tooltip } from "neetoui";
-import moment from "moment";
+import dayjs from "dayjs";
 
 function NoteTable({
   selectedNoteIds,
@@ -73,11 +73,11 @@ function NoteTable({
                 </Badge>
               </td>
               <td className="text-center">
-                {moment(note.created_at).format("MMM DD,YYYY")}
+                {dayjs(note.created_at).format("MMM DD,YYYY")}
               </td>
               <td className="text-center">
                 {note.dueDate
-                  ? moment(note.dueDate).format("MMM DD,YYYY")
+                  ? dayjs(note.dueDate).format("MMM DD,YYYY")
                   : "--"}
               </td>
               <td className="text-center">
