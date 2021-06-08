@@ -48,20 +48,14 @@ export default function NewContactForm({ onClose, refetch }) {
       })}
     >
       {({ isSubmitting }) => (
-        <Form>
-          <Input label="Name" name="name" className="mb-6" required />
-          <Input label="Email" name="email" className="mb-6" required />
-          <Input
-            label="Contact Number"
-            name="contactNumber"
-            className="mb-6"
-            required
-          />
+        <Form className="space-y-6">
+          <Input label="Name" name="name" required />
+          <Input label="Email" name="email" required />
+          <Input label="Contact Number" name="contactNumber" required />
           <Select
             label="Department"
             placeholder="Select department"
             name="department"
-            className="mb-6"
             options={departmentOptions}
             required
           />
