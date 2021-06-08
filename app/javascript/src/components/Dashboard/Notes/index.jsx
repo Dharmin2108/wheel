@@ -1,45 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import notesApi from "apis/notes";
-import { Button, PageLoader } from "neetoui";
+import { Button, PageLoader, Alert } from "neetoui";
 import EmptyState from "components/Common/EmptyState";
 import EmptyNotesListImage from "images/EmptyNotesList";
 import { Header, SubHeader } from "neetoui/layouts";
 
 import NoteTable from "./NoteTable";
 import NewNotePane from "./NewNotePane";
-import DeleteAlert from "./DeleteAlert";
-
-const sortOptions = [
-  {
-    value: "title",
-    label: "Name",
-  },
-  {
-    value: "created_at",
-    label: "Date created",
-  },
-  {
-    value: "dueDate",
-    label: "Due date",
-  },
-];
-
-const tags = [
-  {
-    tagTitle: "Internal",
-    color: "blue",
-  },
-  {
-    tagTitle: "Agile Workflow",
-    color: "green",
-  },
-  {
-    tagTitle: "Bug",
-    color: "red",
-  },
-];
-
-const contacts = ["Dharmin Patel", "Amit Patel", "Narendra Modi"];
+import { noteSortOptions, tags, contacts } from "common/mock-data";
 
 const getRandomElement = array => {
   return array[Math.floor(Math.random() * array.length)];
@@ -53,6 +21,22 @@ const Notes = () => {
   const [selectedNoteIds, setSelectedNoteIds] = useState([]);
   const [notes, setNotes] = useState([]);
   const [deleteNoteId, setDeleteNoteId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      setDeleting(true);
+      await notesApi.destroy({
+        ids: deleteNoteId ? deleteNoteId : selectedNoteIds,
+      });
+      setShowDeleteAlert(false);
+      fetchNotes();
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   useEffect(() => {
     fetchNotes();
@@ -114,7 +98,7 @@ const Notes = () => {
               disabled: !selectedNoteIds.length,
             }}
             sortProps={{
-              options: sortOptions,
+              options: noteSortOptions,
               onClick: () => {},
             }}
             paginationProps={{
@@ -146,14 +130,20 @@ const Notes = () => {
         setShowPane={setShowNewNotePane}
         fetchNotes={fetchNotes}
       />
-      {showDeleteAlert && (
-        <DeleteAlert
-          selectedNoteIds={selectedNoteIds}
-          onClose={() => setShowDeleteAlert(false)}
-          refetch={fetchNotes}
-          deleteNoteId={deleteNoteId}
-        />
-      )}
+      <Alert
+        isOpen={showDeleteAlert}
+        title={
+          deleteNoteId
+            ? "Delete note?"
+            : `Delete ${selectedNoteIds.length} notes?`
+        }
+        message="All of your data will be permanently removed from our database forever. This action cannot be undone."
+        onClose={() => setShowDeleteAlert(false)}
+        submitButtonProps={{
+          onClick: handleDelete,
+          loading: deleting,
+        }}
+      />
     </>
   );
 };

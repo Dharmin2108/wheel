@@ -1,6 +1,6 @@
 import React from "react";
 import { Checkbox, Badge, Avatar, Button, Tooltip } from "neetoui";
-import moment from "moment";
+import dayjs from "dayjs";
 
 function NoteTable({
   selectedNoteIds,
@@ -10,7 +10,7 @@ function NoteTable({
 }) {
   return (
     <div className="w-full px-4">
-      <table className="nui-table nui-table--checkbox">
+      <table className="nui-table nui-table--checkbox nui-table--hover nui-table--actions">
         <thead>
           <tr>
             <th>
@@ -28,21 +28,18 @@ function NoteTable({
                 }}
               />
             </th>
-            <th className="text-left text-gray-400">Title</th>
-            <th className="text-left text-gray-400">Description</th>
-            <th className="text-center text-gray-400">Tags</th>
-            <th className="text-center text-gray-400">Created Date</th>
-            <th className="text-center text-gray-400">Due Date</th>
-            <th className="text-center text-gray-400">Contact</th>
+            <th className="text-left">Title</th>
+            <th className="text-left">Description</th>
+            <th>Tags</th>
+            <th>Created Date</th>
+            <th>Due Date</th>
+            <th>Contact</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           {notes.map(note => (
-            <tr
-              key={note.id}
-              className={"group cursor-pointer bg-white hover:bg-gray-50"}
-            >
+            <tr key={note.id}>
               <td>
                 <Checkbox
                   checked={selectedNoteIds.includes(note.id)}
@@ -73,11 +70,11 @@ function NoteTable({
                 </Badge>
               </td>
               <td className="text-center">
-                {moment(note.created_at).format("MMM DD,YYYY")}
+                {dayjs(note.created_at).format("MMM DD,YYYY")}
               </td>
               <td className="text-center">
                 {note.dueDate
-                  ? moment(note.dueDate).format("MMM DD,YYYY")
+                  ? dayjs(note.dueDate).format("MMM DD,YYYY")
                   : "--"}
               </td>
               <td className="text-center">
@@ -86,7 +83,7 @@ function NoteTable({
                 </div>
               </td>
               <td>
-                <div className="group-hover:opacity-100 opacity-0 flex flex-row space-x-4 items-center">
+                <div className="flex flex-row space-x-4 items-center">
                   <Tooltip content="Edit" position="bottom">
                     <Button style="icon" icon="ri-pencil-line" />
                   </Tooltip>

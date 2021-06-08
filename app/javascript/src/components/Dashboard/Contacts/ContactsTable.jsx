@@ -9,7 +9,7 @@ function ContactsTable({
 }) {
   return (
     <div className="w-full px-4">
-      <table className="nui-table nui-table--checkbox">
+      <table className="nui-table nui-table--checkbox nui-table--hover nui-table--actions">
         <thead>
           <tr>
             <th>
@@ -28,20 +28,17 @@ function ContactsTable({
                 }}
               />
             </th>
-            <th className="text-left text-gray-400">Name</th>
-            <th className="text-left text-gray-400">Email</th>
-            <th className="text-center text-gray-400">Department</th>
-            <th className="text-center text-gray-400">Contact Number</th>
-            <th className="text-center text-gray-400">Add To Basecamp</th>
+            <th className="text-left">Name</th>
+            <th className="text-left">Email</th>
+            <th>Department</th>
+            <th>Contact Number</th>
+            <th>Add To Basecamp</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           {contacts.map(contact => (
-            <tr
-              key={contact.id}
-              className={"group cursor-pointer bg-white hover:bg-gray-50"}
-            >
+            <tr key={contact.id}>
               <td>
                 <Checkbox
                   checked={selectedContactIds.includes(contact.id)}
@@ -87,7 +84,7 @@ function ContactsTable({
                 </div>
               </td>
               <td>
-                <div className="group-hover:opacity-100 opacity-0 flex flex-row space-x-4 items-center">
+                <div className="flex flex-row space-x-4 items-center">
                   <Tooltip content="Edit" position="bottom">
                     <Button style="icon" icon="ri-pencil-line" />
                   </Tooltip>

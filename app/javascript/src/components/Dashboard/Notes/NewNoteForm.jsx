@@ -4,36 +4,7 @@ import { Formik, Form, Field } from "formik";
 import { Input, Textarea, Select } from "neetoui/formik";
 import { Button, Label, Switch, DateInput } from "neetoui";
 import notesApi from "apis/notes";
-
-const tagOptions = [
-  {
-    label: "Internal",
-    value: "internal",
-  },
-  {
-    label: "Agile Workflow",
-    value: "agileWorkflow",
-  },
-  {
-    label: "Bug",
-    value: "bug",
-  },
-];
-
-const contactOptions = [
-  {
-    label: "Dharmin Patel",
-    value: "Dharmin Patel",
-  },
-  {
-    label: "Dhaval Patel",
-    value: "Dhaval Patel",
-  },
-  {
-    label: "Amit Patel",
-    value: "Amit Patel",
-  },
-];
+import { tagOptions, contactOptions } from "../../../common/mock-data";
 
 export default function NewNoteForm({ onClose, refetch }) {
   const [addDueDate, setAddDueDate] = useState(false);
@@ -64,18 +35,16 @@ export default function NewNoteForm({ onClose, refetch }) {
       })}
     >
       {({ isSubmitting, setFieldValue }) => (
-        <Form>
-          <Input label="Note Title" name="title" className="mb-6" required />
+        <Form className="space-y-6">
+          <Input label="Note Title" name="title" required />
           <Select
             label="Tag"
             placeholder="Select tag"
             name="tag"
-            className="mb-6"
             options={tagOptions}
             required
           />
           <Textarea
-            className="mb-6"
             label="Note Description"
             name="description"
             rows={4}
@@ -85,11 +54,10 @@ export default function NewNoteForm({ onClose, refetch }) {
             label="Assigned Contact"
             placeholder="Select contact"
             name="contact"
-            className="mb-6"
             options={contactOptions}
             required
           />
-          <div className="flex justify-between mb-6">
+          <div className="flex justify-between">
             <Label>Add Due Date to Note</Label>
             <Switch
               name="duedate-switch"
@@ -105,20 +73,18 @@ export default function NewNoteForm({ onClose, refetch }) {
             />
           </div>
           {addDueDate && (
-            <div>
-              <Label>Due Date</Label>
-              <Field name="dueDate">
-                {() => (
-                  <DateInput
-                    format="DD-MM-YYYY"
-                    defaultValue={new Date()}
-                    onChange={value => setFieldValue("dueDate", value)}
-                    placeholder="Select due date"
-                    canClearSelection={false}
-                  />
-                )}
-              </Field>
-            </div>
+            <Field name="dueDate">
+              {() => (
+                <DateInput
+                  format="DD-MM-YYYY"
+                  label="Due Date"
+                  defaultValue={new Date()}
+                  onChange={value => setFieldValue("dueDate", value)}
+                  placeholder="Select due date"
+                  canClearSelection={false}
+                />
+              )}
+            </Field>
           )}
           <div className="nui-pane__footer nui-pane__footer--absolute">
             <Button
