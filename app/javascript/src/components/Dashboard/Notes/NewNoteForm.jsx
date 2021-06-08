@@ -73,20 +73,18 @@ export default function NewNoteForm({ onClose, refetch }) {
             />
           </div>
           {addDueDate && (
-            <div>
-              <Label>Due Date</Label>
-              <Field name="dueDate">
-                {() => (
-                  <DateInput
-                    format="DD-MM-YYYY"
-                    defaultValue={new Date()}
-                    onChange={value => setFieldValue("dueDate", value)}
-                    placeholder="Select due date"
-                    canClearSelection={false}
-                  />
-                )}
-              </Field>
-            </div>
+            <Field name="dueDate">
+              {() => (
+                <DateInput
+                  format="DD-MM-YYYY"
+                  label="Due Date"
+                  defaultValue={new Date()}
+                  onChange={value => setFieldValue("dueDate", value)}
+                  placeholder="Select due date"
+                  canClearSelection={false}
+                />
+              )}
+            </Field>
           )}
           <div className="nui-pane__footer nui-pane__footer--absolute">
             <Button
