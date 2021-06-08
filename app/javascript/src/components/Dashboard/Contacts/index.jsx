@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, PageLoader } from "neetoui";
+import { Button, PageLoader, Alert, Toastr } from "neetoui";
 import EmptyState from "components/Common/EmptyState";
 import EmptyNotesListImage from "images/EmptyNotesList";
 import { Header, SubHeader } from "neetoui/layouts";
 
 import ContactsTable from "./ContactsTable";
-import DeleteAlert from "./DeleteAlert";
 import NewContactPane from "./NewContactPane";
 
 const sortOptions = [
@@ -50,6 +49,16 @@ const Contacts = () => {
   const [deleteContactId, setDeleteContactId] = useState(null);
   const [contacts, setContacts] = useState([]);
   const [showNewContactPane, setShowNewContactPane] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    window.setTimeout(() => {
+      setDeleting(false);
+      Toastr.success("Contact deleted succssfully.");
+      setShowDeleteAlert(false);
+    }, 1000);
+  };
 
   const onCLickDelete = useCallback(contactId => {
     setShowDeleteAlert(true);
@@ -136,13 +145,20 @@ const Contacts = () => {
         setShowPane={setShowNewContactPane}
         fetchContacts={fetchContacts}
       />
-      {showDeleteAlert && (
-        <DeleteAlert
-          selectedContactIds={selectedContactIds}
-          onClose={() => setShowDeleteAlert(false)}
-          deleteContactId={deleteContactId}
-        />
-      )}
+      <Alert
+        isOpen={showDeleteAlert}
+        title={
+          deleteContactId
+            ? "Delete contact?"
+            : `Delete ${selectedContactIds.length} contacts?`
+        }
+        message="All of your data will be permanently removed from our database forever. This action cannot be undone."
+        onClose={() => setShowDeleteAlert(false)}
+        submitButtonProps={{
+          onClick: handleDelete,
+          loading: deleting,
+        }}
+      />
     </>
   );
 };
