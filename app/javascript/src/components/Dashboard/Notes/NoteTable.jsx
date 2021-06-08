@@ -28,8 +28,8 @@ function NoteTable({
                 }}
               />
             </th>
-            <th>Title</th>
-            <th>Description</th>
+            <th className="text-left">Title</th>
+            <th className="text-left">Description</th>
             <th>Tags</th>
             <th>Created Date</th>
             <th>Due Date</th>
@@ -39,7 +39,7 @@ function NoteTable({
         </thead>
         <tbody>
           {notes.map(note => (
-            <tr key={note.id} className={""}>
+            <tr key={note.id}>
               <td>
                 <Checkbox
                   checked={selectedNoteIds.includes(note.id)}
