@@ -6,40 +6,7 @@ import { Header, SubHeader } from "neetoui/layouts";
 
 import ContactsTable from "./ContactsTable";
 import NewContactPane from "./NewContactPane";
-
-const sortOptions = [
-  {
-    value: "title",
-    label: "Name",
-  },
-  {
-    value: "email",
-    label: "Email",
-  },
-  {
-    value: "department",
-    label: "Department",
-  },
-];
-
-const contactsData = [
-  {
-    id: 1,
-    name: "Dharmin Patel",
-    email: "dharmin@bigbinary.com",
-    department: "Engineering",
-    contactNumber: "9979655572",
-    addToBasecamp: false,
-  },
-  {
-    id: 2,
-    name: "Hetali Patel",
-    email: "hetali@gmail.com",
-    department: "QA",
-    contactNumber: "9979655572",
-    addToBasecamp: true,
-  },
-];
+import { contactsData, sortOptions } from "common/mock-data";
 
 const Contacts = () => {
   const [loading, setLoading] = useState(true);

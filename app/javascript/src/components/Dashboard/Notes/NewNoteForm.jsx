@@ -4,36 +4,7 @@ import { Formik, Form, Field } from "formik";
 import { Input, Textarea, Select } from "neetoui/formik";
 import { Button, Label, Switch, DateInput } from "neetoui";
 import notesApi from "apis/notes";
-
-const tagOptions = [
-  {
-    label: "Internal",
-    value: "internal",
-  },
-  {
-    label: "Agile Workflow",
-    value: "agileWorkflow",
-  },
-  {
-    label: "Bug",
-    value: "bug",
-  },
-];
-
-const contactOptions = [
-  {
-    label: "Dharmin Patel",
-    value: "Dharmin Patel",
-  },
-  {
-    label: "Dhaval Patel",
-    value: "Dhaval Patel",
-  },
-  {
-    label: "Amit Patel",
-    value: "Amit Patel",
-  },
-];
+import { tagOptions, contactOptions } from "../../../common/mock-data";
 
 export default function NewNoteForm({ onClose, refetch }) {
   const [addDueDate, setAddDueDate] = useState(false);

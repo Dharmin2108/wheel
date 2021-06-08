@@ -7,38 +7,7 @@ import { Header, SubHeader } from "neetoui/layouts";
 
 import NoteTable from "./NoteTable";
 import NewNotePane from "./NewNotePane";
-
-const sortOptions = [
-  {
-    value: "title",
-    label: "Name",
-  },
-  {
-    value: "created_at",
-    label: "Date created",
-  },
-  {
-    value: "dueDate",
-    label: "Due date",
-  },
-];
-
-const tags = [
-  {
-    tagTitle: "Internal",
-    color: "blue",
-  },
-  {
-    tagTitle: "Agile Workflow",
-    color: "green",
-  },
-  {
-    tagTitle: "Bug",
-    color: "red",
-  },
-];
-
-const contacts = ["Dharmin Patel", "Amit Patel", "Narendra Modi"];
+import { noteSortOptions, tags, contacts } from "common/mock-data";
 
 const getRandomElement = array => {
   return array[Math.floor(Math.random() * array.length)];
@@ -129,7 +98,7 @@ const Notes = () => {
               disabled: !selectedNoteIds.length,
             }}
             sortProps={{
-              options: sortOptions,
+              options: noteSortOptions,
               onClick: () => {},
             }}
             paginationProps={{
